@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>京言葉クイズ|あなたは京都人の本音、何問わかる?</title>
+<meta name="description" content="「ピアノ、上手にならはりましたなぁ」の本音は?京都の人との会話から、遠回しな言い方の“言外の意味”を当てる10問クイズ。1億通り以上の場面、4段階の難易度、毎日同じ10問で競える「今日の京言葉」。ネタとして楽しむ、愛のある京都いじりです。">
+<meta property="og:title" content="京言葉クイズ|あなたは京都人の本音、何問わかる?">
+<meta property="og:description" content="「ぶぶ漬けでもどうどす?」だけやおへん。1億通り以上の場面から、京都の遠回しな本音を読み解く10問。今日の京言葉で、みんなと同じ10問に挑戦。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jomo-play.github.io/kyoto-quiz/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://jomo-play.github.io/kyoto-quiz/">
+<link rel="stylesheet" href="css/style.css?v=202611241413">
+</head>
+<body>
+<main id="app">
+
+  <!-- タイトル -->
+  <section id="screen-title" class="screen active">
+    <div class="title-wrap">
+      <p class="eyebrow">あなたは京都人の本音、何問わかる?</p>
+      <h1 class="logo">京言葉<br>クイズ</h1>
+      <div class="bubble-demo" aria-hidden="true">
+        <span class="av">👵</span>
+        <p class="bubble">ピアノ、上手にならはりましたなぁ。</p>
+      </div>
+      <p class="count"><b id="pattern-count"></b>の場面から出題</p>
+
+      <button id="btn-daily" class="btn primary daily" type="button">
+        <span class="daily-main">今日の京言葉 <span id="daily-no"></span></span>
+        <span class="daily-sub">全員同じ10問・中級・日本時間0時に入れかわり</span>
+      </button>
+
+      <p class="mode-head">難易度を選んで遊ぶ</p>
+      <div class="levels" role="group" aria-label="難易度">
+        <button class="btn lv" type="button" data-level="easy"><b>初級</b><small>はじめての京都</small></button>
+        <button class="btn lv" type="button" data-level="normal"><b>中級</b><small>ちょっと住んでみた</small></button>
+        <button class="btn lv" type="button" data-level="hard"><b>上級</b><small>4つとも、ありそう</small></button>
+        <button class="btn lv" type="button" data-level="kyoto"><b>京都人級</b><small>ひっかけ多め</small></button>
+      </div>
+
+      <aside class="notice" role="note">
+        <p><b>ネタとして楽しむクイズです。</b>ここに出てくる「本音」は、ネットや雑誌などで語られてきた“京都人の遠回しな言い方”の都市伝説・ネタと、それをもとにこのサイトが作った創作の場面です。京都の人がみんなこう話すわけではありません。</p>
+        <p>遠回しな言い方は、角を立てないための気づかいとも言われます。愛をこめて、どうぞ。</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 出題 -->
+  <section id="screen-quiz" class="screen">
+    <div class="quiz-head">
+      <span id="q-mode" class="q-mode"></span>
+      <span id="q-num" class="q-num"></span>
+      <div class="progress" aria-hidden="true"><span id="q-bar"></span></div>
+      <span id="q-score" class="q-score"></span>
+    </div>
+
+    <div class="scene card">
+      <p class="tag" id="q-tag"></p>
+      <p class="scene-text" id="q-scene"></p>
+    </div>
+
+    <div class="chat" id="chat">
+      <div class="msg them">
+        <span class="av" id="q-av" aria-hidden="true"></span>
+        <div>
+          <p class="name" id="q-name"></p>
+          <p class="bubble" id="q-line"></p>
+        </div>
+      </div>
+      <div class="msg me hidden" id="me-msg">
+        <div>
+          <p class="name">あなた</p>
+          <p class="bubble" id="me-line"></p>
+        </div>
+      </div>
+    </div>
+
+    <p class="ask" id="q-ask"></p>
+    <div class="choices" id="choices"></div>
+
+    <div class="feedback card hidden" id="feedback" aria-live="polite">
+      <p class="verdict" id="fb-verdict"></p>
+      <p class="honne-label">本音の種明かし</p>
+      <p class="honne" id="fb-honne"></p>
+      <p class="tag" id="fb-type"></p>
+      <p class="kai" id="fb-kai"></p>
+      <p class="src small" id="fb-src"></p>
+      <button id="btn-next" class="btn primary" type="button">次へ</button>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="screen-result" class="screen">
+    <div class="card result">
+      <p class="small muted" id="res-mode"></p>
+      <p class="score"><span id="res-score"></span><small>/ 10</small></p>
+      <p class="grid" id="res-grid" aria-label="正誤"></p>
+      <p class="small muted">あなたの称号は</p>
+      <h2 id="res-title" class="res-title"></h2>
+      <p id="res-comment" class="res-comment"></p>
+      <a id="btn-share" class="btn share" target="_blank" rel="noopener">Xでシェアする</a>
+      <button id="btn-image" class="btn" type="button">結果の画像を保存</button>
+      <button id="btn-again" class="btn primary" type="button">もう一回</button>
+      <button id="btn-home" class="btn ghost" type="button">ほかの難易度で遊ぶ</button>
+      <img id="res-img" class="res-img hidden" alt="結果の画像">
+    </div>
+    <h3 class="review-head">ふりかえり</h3>
+    <ol id="review" class="review"></ol>
+    <div class="ad-slot" id="ad-result" aria-hidden="true"></div>
+  </section>
+
+  <footer class="site-footer">
+    <p class="small">本音の解釈は、京都の遠回しな言い方として広く語られてきたネタ・都市伝説にもとづく遊びです。実在の人物・お店とは関係ありません。</p>
+    <details class="refs">
+      <summary>参考にした記事</summary>
+      <ul id="ref-list"></ul>
+      <p class="small muted">種明かしで「★ 名作ネタ」と出る場面は、上の記事で紹介されている言い回しです。そのほかの場面は、それらの型をもとにこのサイトが作った創作です。</p>
+    </details>
+    <p class="others">ほかのサイト → <a href="https://jomo-play.github.io/">jomo-play.github.io</a></p>
+  </footer>
+</main>
+<canvas id="card-canvas" width="1200" height="630" hidden></canvas>
+<script src="data/base.js?v=202611241413"></script>
+<script src="data/t_core.js?v=202611241413"></script>
+<script src="data/t_work.js?v=202611241413"></script>
+<script src="data/t_school.js?v=202611241413"></script>
+<script src="data/t_rel.js?v=202611241413"></script>
+<script src="data/t_town.js?v=202611241413"></script>
+<script src="js/gen.js?v=202611241413"></script>
+<script src="js/app.js?v=202611241413"></script>
+<script data-goatcounter="https://jomo-play.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
